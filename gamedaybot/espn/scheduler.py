@@ -1,3 +1,5 @@
+import time
+
 from apscheduler.schedulers.blocking import BlockingScheduler
 from gamedaybot.espn.espn_bot import espn_bot
 from gamedaybot.espn.env_vars import get_env_vars
@@ -40,7 +42,7 @@ def scheduler():
                   timezone=my_timezone, replace_existing=True)
     sched.add_job(espn_bot, 'cron', ['get_final'], id='final',
                   day_of_week='tue', hour=7, minute=30, start_date=ff_start_date, end_date=ff_end_date,
-                  timezone=my_timezone, replace_existing=True)
+                  timezone=game_timezone if (time.timezone/3600) < 5 else my_timezone, replace_existing=True)
     sched.add_job(espn_bot, 'cron', ['get_standings'], id='standings',
                   day_of_week='wed', hour=7, minute=30, start_date=ff_start_date, end_date=ff_end_date,
                   timezone=my_timezone, replace_existing=True)
